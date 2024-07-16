@@ -86,7 +86,7 @@ func AnyMovesLeft(board []string) bool {
 
 func IsGameOver(board []string) bool {
 	winner := CheckWinner(board)
-	if winner != "" {
+	if winner == "" {
 		return !AnyMovesLeft(board)
 	}
 	return true
