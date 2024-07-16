@@ -7,6 +7,8 @@ import (
 type TestingSet struct {
 	Board          []string
 	ExpectedWinner string
+	IsGameOver     bool
+	AnyMovesLeft   bool
 }
 
 var xSquareWin = []string{"XX__", "XX__", "____", "____"}
@@ -36,70 +38,104 @@ var ValuesToTest = []TestingSet{
 	{
 		Board:          drawBoard,
 		ExpectedWinner: "",
+		IsGameOver:     true,
+		AnyMovesLeft:   false,
 	},
 	{
 		Board:          xSquareWin,
 		ExpectedWinner: string(X),
+		IsGameOver:     true,
+		AnyMovesLeft:   true,
 	},
 	{
 		Board:          oSquareWin,
 		ExpectedWinner: string(O),
+		IsGameOver:     true,
+		AnyMovesLeft:   true,
 	},
 	{
 		Board:          bothHaveSquares,
 		ExpectedWinner: string(X),
+		IsGameOver:     true,
+		AnyMovesLeft:   true,
 	},
 	{
 		Board:          xColWin,
 		ExpectedWinner: string(X),
+		IsGameOver:     true,
+		AnyMovesLeft:   true,
 	},
 	{
 		Board:          oColWin,
 		ExpectedWinner: string(O),
+		IsGameOver:     true,
+		AnyMovesLeft:   true,
 	},
 	{
 		Board:          bothColWin,
 		ExpectedWinner: string(X),
+		IsGameOver:     true,
+		AnyMovesLeft:   false,
 	},
 	{
 		Board:          xRowWin,
 		ExpectedWinner: string(X),
+		IsGameOver:     true,
+		AnyMovesLeft:   true,
 	},
 	{
 		Board:          oRowWin,
 		ExpectedWinner: string(O),
+		IsGameOver:     true,
+		AnyMovesLeft:   true,
 	},
 	{
 		Board:          bothRowWin,
 		ExpectedWinner: string(X),
+		IsGameOver:     true,
+		AnyMovesLeft:   false,
 	},
 	{
 		Board:          xDiagonalWin,
 		ExpectedWinner: string(X),
+		IsGameOver:     true,
+		AnyMovesLeft:   true,
 	},
 	{
 		Board:          oDiagonalWin,
 		ExpectedWinner: string(O),
+		IsGameOver:     true,
+		AnyMovesLeft:   true,
 	},
 	{
 		Board:          bothDiagonalWin,
 		ExpectedWinner: string(X),
+		IsGameOver:     true,
+		AnyMovesLeft:   true,
 	},
 	{
 		Board:          xCornersWin,
 		ExpectedWinner: string(X),
+		IsGameOver:     true,
+		AnyMovesLeft:   true,
 	},
 	{
 		Board:          oCornersWin,
 		ExpectedWinner: string(O),
+		IsGameOver:     true,
+		AnyMovesLeft:   true,
 	},
 	{
 		Board:          xCornersOBox,
 		ExpectedWinner: string(X),
+		IsGameOver:     true,
+		AnyMovesLeft:   true,
 	},
 	{
 		Board:          emptyBoard,
 		ExpectedWinner: "",
+		IsGameOver:     false,
+		AnyMovesLeft:   true,
 	},
 }
 
@@ -114,4 +150,13 @@ func ValidateBoard(t *testing.T, params TestingSet) {
 	if winnerName != params.ExpectedWinner {
 		t.Fatalf("Expected %s but saw %s", params.ExpectedWinner, winnerName)
 	}
+	anyMovesLeft := AnyMovesLeft(params.Board)
+	if anyMovesLeft != params.AnyMovesLeft {
+		t.Fatalf("Expected %t but saw %t", params.AnyMovesLeft, anyMovesLeft)
+	}
+	isGameOver := IsGameOver(params.Board)
+	if isGameOver != params.IsGameOver {
+		t.Fatalf("Expected %t but saw %t", params.IsGameOver, isGameOver)
+	}
+
 }
